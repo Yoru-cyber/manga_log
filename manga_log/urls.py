@@ -20,9 +20,6 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from manga_log import settings
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("", include("manga_log_app.urls"))
-]
+urlpatterns = [path("admin/", admin.site.urls), path("", include("manga_log_app.urls"))]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

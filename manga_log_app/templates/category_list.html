@@ -1,0 +1,59 @@
+{% extends 'base.html' %} {% block content %} {%load static%}
+<div class="container mt-4">
+  <h1>{{ category }}</h1>
+  {% if items|length == 0 %}
+  <h2>No hay entradas</h2>
+  {%else%}
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover rounded">
+      <thead class="table-dark">
+        <tr>
+          <th>Name</th>
+          <th>Image</th>
+          <th>Category</th>
+          <th>Rating</th>
+          <th>Review</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td class="text-capitalize">{{ item.name }}</td>
+          <td>
+            {% if item.image %}
+            <img
+              src="{{ item.image.url }}"
+              class="img-fluid rounded"
+              alt="{{ item.name }}"
+              style="max-width: 100px; height: auto"
+            />
+            {% else %}
+            <img
+              src="{% static 'images/schnoz.webp' %}"
+              class="img-fluid rounded"
+              alt="funny looking guy"
+              style="max-width: 100px; height: auto"
+            />
+            {% endif %}
+          </td>
+          <td>{{ item.get_category_display }}</td>
+          <td>
+            {% if item.rating >= 8 %}
+            <span class="badge bg-success"
+              >Puntuación: {{ item.rating }}/10</span
+            >
+            {% elif item.rating >= 5 %}
+            <span class="badge bg-warning">Rating: {{ item.rating }}/10</span>
+            {% else %}
+            <span class="badge bg-danger">Rating: {{ item.rating }}/10</span>
+            {% endif %}
+          </td>
+          <td>{{ item.review }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {%endif%}
+</div>
+{% endblock %}
