@@ -176,3 +176,4 @@ cython_debug/
 #media files
 
 media/
+static/

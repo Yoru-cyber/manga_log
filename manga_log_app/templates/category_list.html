@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %} {%load static%}
+{% extends 'base.html' %} {% block content %} {%load static%}     {% load bootstrap_icons %}
     <h1>{{ category }}</h1>
     <a class="btn btn-primary" href="{% url 'add_item' %}">Nueva Entrada <i class="bi bi-plus"></i> </a>
     {% if page_obj|length == 0 %}
@@ -10,9 +10,9 @@
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
-                            <th>Image</th>
-                            <th>Category</th>
-                            <th>Rating</th>
+                            <th>Título</th>
+                            <th>Categoría</th>
+                            <th>Calificación</th>
                             <th>Review</th>
                             <th>Acciones</th>
                         </tr>
@@ -41,7 +41,19 @@
                                     {% endif %}
                                 </td>
                                 <td class="text-center align-middle">{{ item.review }}</td>
-                                <td class="text-center align-middle"><a href="{%url 'delete_item' item.id%}" class="btn btn-danger me-3"><i class="bi bi-trash"></i></a><a href="{%url 'update_item' item.id%}" class="btn btn-warning"><i class="bi bi-pencil"></i></a></td>
+                                <td>
+                                    <div class="d-inline-flex align-items-center gap-2">
+                                        <form action="{% url 'delete_item' item.id %}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este elemento?');">
+                                            {% csrf_token %}
+                                            <button class="btn btn-danger" type="submit">
+                                                {% bs_icon "trash"%}
+                                            </button>
+                                        </form>
+                                        <a href="{% url 'update_item' item.id %}" class="btn btn-warning">
+                                            {% bs_icon "pencil" %}
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -2,8 +2,9 @@
 {% extends 'base.html' %}
 {% block content %}
     {%load static%}
+    {% load bootstrap_icons %}
     <h1 class="caps">General</h1>
-    <a class="btn btn-primary" href="{% url 'add_item' %}">Nueva Entrada <i class="bi bi-plus"></i> </a>
+    <a class="btn btn-primary" href="{% url 'add_item' %}">Nueva Entrada {% bs_icon "plus"%} </a>
     {%if page_obj|length == 0%}
         <h1>No hay entradas</h1>
     {%else%}
@@ -15,7 +16,7 @@
                             <th>#</th>
                             <th>Título</th>
                             <th>Categoría</th>
-                            <th>Rating</th>
+                            <th>Calificación</th>
                             <th>Review</th>
                             <th>Acciones</th>
                         </tr>
@@ -46,14 +47,14 @@
                                 <td class="text-center align-middle">{{ item.review }}</td>
                                 <td class="text-center align-middle">
                                     <div class="d-inline-flex align-items-center gap-2">
-                                        <form action="{% url 'delete_item' item.id %}" method="POST">
+                                        <form action="{% url 'delete_item' item.id %}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este elemento?');">
                                             {% csrf_token %}
                                             <button class="btn btn-danger" type="submit">
-                                                <i class="bi bi-trash"></i>
+                                                {% bs_icon "trash"%}
                                             </button>
                                         </form>
                                         <a href="{% url 'update_item' item.id %}" class="btn btn-warning">
-                                            <i class="bi bi-pencil"></i>
+                                            {% bs_icon "pencil" %}
                                         </a>
                                     </div>
                                 </td>

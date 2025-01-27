@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, render, redirect
+from django.db.models.aggregates import Avg, Count
 
 # Create your views here.
 from .forms import ItemForm
@@ -64,3 +65,25 @@ def manhwa_items(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request, "category_list.html", {"page_obj": page_obj})
+
+
+def stats(request):
+    count = Item.objects.all().count()
+    count_manhwa = Item.objects.filter(category="Manhwa").count()
+    count_manga = Item.objects.filter(category="Manga").count()
+    avg_rating = Item.objects.aggregate(Avg("rating"))["rating__avg"]
+    avg_rating_manhwa = Item.objects.filter(category="Manhwa").aggregate(Avg("rating"))[
+        "rating__avg"
+    ]
+    avg_rating_manga = Item.objects.filter(category="Manga").aggregate(Avg("rating"))[
+        "rating__avg"
+    ]
+    context = {
+        "count": count,
+        "count_manhwa": count_manhwa,
+        "count_manga": count_manga,
+        "avg_rating": avg_rating,
+        "avg_rating_manhwa": avg_rating_manhwa,
+        "avg_rating_manga": avg_rating_manga,
+    }
+    return render(request, "stats.html", context)

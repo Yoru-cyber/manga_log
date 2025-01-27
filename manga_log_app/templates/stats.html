@@ -1,0 +1,62 @@
+{% extends 'base.html' %} {% block content %} {%load static%}
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Estadísticas</h1>
+        <div class="row g-4">
+            <!-- Total Items -->
+            <div class="col-md-4">
+                <div class="card border-primary">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total</h5>
+                        <p class="card-text display-6">{{ count }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Total Manhwa -->
+            <div class="col-md-4">
+                <div class="card border-info">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Manhwas</h5>
+                        <p class="card-text display-6">{{ count_manhwa }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Total Manga -->
+            <div class="col-md-4">
+                <div class="card border-info">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Mangas</h5>
+                        <p class="card-text display-6">{{ count_manga }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Average Rating -->
+            <div class="col-md-4">
+                <div class="card border-success">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Calificación Promedio</h5>
+                        <p class="card-text display-6">{{ avg_rating|default:"N/A" }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Average Rating (Manhwa) -->
+            <div class="col-md-4">
+                <div class="card border-success">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Calificación Promedio (Manhwa)</h5>
+                        <p class="card-text display-6">{{ avg_rating_manhwa|default:"N/A" }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Average Rating (Manga) -->
+            <div class="col-md-4">
+                <div class="card border-success">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Calificación Promedio (Manga)</h5>
+                        <p class="card-text display-6">{{ avg_rating_manga|default:"N/A" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{%endblock%}
