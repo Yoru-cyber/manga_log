@@ -1,50 +1,69 @@
 
 {% extends 'base.html' %}
 {% block content %}
- {%load static%}
-<h1 class="caps">General</h1>
-<a class="btn btn-primary" href="{% url 'add_item' %}">Nueva Entrada <i class="bi bi-plus"></i> </a>
-<div class="container mt-4">
-<div class="table-responsive rounded">
-    <table class="table table-bordered table-hover">
-        <thead class="table-dark">
-            <tr class="text-center">
-                <th>#</th>
-                <th>Título</th>
-                <th>Categoría</th>
-                <th>Rating</th>
-                <th>Review</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-                <tr>
-                    <td class="text-center">{{item.id}}</td>
-                    <td class="text-capitalize text-left">
-                        {% if item.image %}
-                            <img src="{{ item.image.url }}" class="img-fluid rounded" alt="{{ item.name }}" style="max-width: 100px; height: auto;">
-                        {% else %}
-                            <img src="{% static 'images/schnoz.webp' %}" class="img-fluid rounded" alt="funny looking guy" style="max-width: 100px; height: auto;">
-                        {% endif %}
-                    <span>{{ item.name }}</span>
+    {%load static%}
+    <h1 class="caps">General</h1>
+    <a class="btn btn-primary" href="{% url 'add_item' %}">Nueva Entrada <i class="bi bi-plus"></i> </a>
+    {%if items|length == 0%}
+        <h1>No hay entradas</h1>
+    {%else%}
+        <div class="container mt-4">
+            <div class="table-responsive rounded">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-dark">
+                        <tr class="text-center">
+                            <th>#</th>
+                            <th>Título</th>
+                            <th>Categoría</th>
+                            <th>Rating</th>
+                            <th>Review</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td class="text-center">{{item.id}}</td>
+                                <td class="text-capitalize text-left">
+                                    {% if item.image %}
+                                        <img src="{{ item.image.url }}" class="img-fluid rounded" alt="{{ item.name }}" style="max-width: 100px; height: auto;">
+                                    {% else %}
+                                        <img src="{% static 'images/schnoz.webp' %}" class="img-fluid rounded" alt="funny looking guy" style="max-width: 100px; height: auto;">
+                                    {% endif %}
+                                    <span>{{ item.name }}</span>
 
-                    </td>
-                    <td class="text-center">{{ item.category }}</td>
-                    <td class="text-center">
-                        {% if item.rating >= 8 %}
-                            <span class="badge bg-success">Rating: {{ item.rating }}/10</span>
-                        {% elif item.rating >= 5 %}
-                            <span class="badge bg-warning">Rating: {{ item.rating }}/10</span>
-                        {% else %}
-                            <span class="badge bg-danger">Rating: {{ item.rating }}/10</span>
-                        {% endif %}
-                    </td>
-                    <td>{{ item.review }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-</div>
+                                </td>
+                                <td class="text-center">{{ item.category }}</td>
+                                <td class="text-center fs-5">
+                                    {% if item.rating >= 8 %}
+                                        <span class="badge bg-success">Rating: {{ item.rating }}/10</span>
+                                    {% elif item.rating >= 5 %}
+                                        <span class="badge bg-warning">Rating: {{ item.rating }}/10</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Rating: {{ item.rating }}/10</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ item.review }}</td>
+                                <td class="text-center">
+                                    <div class="d-inline-flex align-items-center gap-2">
+                                        <form action="{% url 'delete_item' item.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <button class="btn btn-danger" type="submit">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                        <a href="{% url 'update_item' item.id %}" class="btn btn-warning">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {%endif%}
 
 {% endblock %}

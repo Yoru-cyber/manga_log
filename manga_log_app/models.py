@@ -19,7 +19,7 @@ class Item(models.Model):
         upload_to="item_images/", null=True, blank=True
     )  # Images will be uploaded to 'media/item_images/'
     rating = models.IntegerField(
-        help_text="Rating out of 10",  
+        help_text="Rating out of 10",
     )  # Rating from 0 to 10
     review = models.TextField()
 
