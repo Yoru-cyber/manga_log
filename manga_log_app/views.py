@@ -55,7 +55,9 @@ def manga_items(request):
     paginator = Paginator(manga_items, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request, "category_list.html", {"page_obj": page_obj})
+    return render(
+        request, "category_list.html", {"page_obj": page_obj, "category": "Manga"}
+    )
 
 
 def manhwa_items(request):
@@ -64,7 +66,9 @@ def manhwa_items(request):
     paginator = Paginator(manhwa_items, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request, "category_list.html", {"page_obj": page_obj})
+    return render(
+        request, "category_list.html", {"page_obj": page_obj, "category": "Manhwa"}
+    )
 
 
 def stats(request):

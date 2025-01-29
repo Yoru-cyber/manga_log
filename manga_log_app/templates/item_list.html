@@ -3,29 +3,29 @@
 {% block content %}
     {%load static%}
     {% load bootstrap_icons %}
-    <h1 class="caps">General</h1>
-    <a class="btn btn-primary" href="{% url 'add_item' %}">Nueva Entrada {% bs_icon "plus"%} </a>
+    <h1 class="text-center">General</h1>
+    <a class="btn btn-primary ms-2" href="{% url 'add_item' %}">Nueva Entrada {% bs_icon "plus"%} </a>
     {%if page_obj|length == 0%}
         <h1>No hay entradas</h1>
     {%else%}
-        <div class="container mt-4">
+        <div class="container-fluid mt-4 w-100">
             <div class="table-responsive rounded">
                 <table class="table table-bordered table-hover">
                     <thead class="table-dark">
                         <tr class="text-center">
-                            <th>#</th>
-                            <th>Título</th>
-                            <th>Categoría</th>
-                            <th>Calificación</th>
-                            <th>Review</th>
-                            <th>Acciones</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Título</th>
+                            <th scope="col">Categoría</th>
+                            <th scope="col">Calificación</th>
+                            <th scope="col">Review</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for item in page_obj %}
-                            <tr>
+                            <tr scope="row">
                                 <td class="text-center align-middle">{{item.id}}</td>
-                                <td class="text-capitalize text-left">
+                                <td class="text-capitalize text-left" style="width: 20%;">
                                     {% if item.image %}
                                         <img src="{{ item.image.url }}" class="img-fluid rounded" alt="{{ item.name }}" style="max-width: 100px; height: auto;">
                                     {% else %}
@@ -37,15 +37,15 @@
                                 <td class="text-center align-middle">{{ item.category }}</td>
                                 <td class="text-center align-middle fs-5">
                                     {% if item.rating >= 8 %}
-                                        <span class="badge bg-success">Rating: {{ item.rating }}/10</span>
+                                        <span class="badge bg-success">Calificación: {{ item.rating }}/10</span>
                                     {% elif item.rating >= 5 %}
-                                        <span class="badge bg-warning">Rating: {{ item.rating }}/10</span>
+                                        <span class="badge bg-warning">Calificación: {{ item.rating }}/10</span>
                                     {% else %}
-                                        <span class="badge bg-danger">Rating: {{ item.rating }}/10</span>
+                                        <span class="badge bg-danger">Calificación: {{ item.rating }}/10</span>
                                     {% endif %}
                                 </td>
-                                <td class="text-center align-middle">{{ item.review }}</td>
-                                <td class="text-center align-middle">
+                                <td class="text-center align-middle w-50">{{ item.review }}</td>
+                                <td class="text-center align-middle" style="width: 8%;">
                                     <div class="d-inline-flex align-items-center gap-2">
                                         <form action="{% url 'delete_item' item.id %}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este elemento?');">
                                             {% csrf_token %}
