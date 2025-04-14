@@ -23,7 +23,7 @@
                                 <td class="text-center align-middle">{{item.id}}</td>
                                 <td class="text-capitalize text-left" style="width: 20%;">
                                     {% if item.image %}
-                                        <img src="{{ item.image.url }}" class="img-fluid rounded" alt="{{ item.name }}" style="max-width: 100px; height: auto;">
+                                        <img src="{{ item.image.url }}" alt="{{ item.name }}" style="width: 100px; height: 150px;border-radius: 10px;">
                                     {% else %}
                                         <img src="{% static 'images/schnoz.webp' %}" class="img-fluid rounded" alt="funny looking guy" style="max-width: 100px; height: auto;">
                                     {% endif %}

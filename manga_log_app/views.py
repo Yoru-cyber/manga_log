@@ -1,3 +1,4 @@
+import os
 from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, render, redirect
@@ -34,6 +35,10 @@ def update_item(request, item_id):
 def delete_item(request, item_id):
     item = get_object_or_404(Item, id=item_id)
     if request.method == "POST":
+        root_path = os.getcwd()
+        imgRemove = item.image.url
+        os.remove(f'{root_path}/{imgRemove}')
+        item.image = None
         item.delete()
         return redirect("item_list")  # Return empty response to remove the row
     return render(request, "partials/confirm_delete.html", {"item": item})
@@ -46,7 +51,7 @@ def item_list(request):
     page_obj = paginator.get_page(
         page_number
     )  # Get the Page object for the current page
-    return render(request, "item_list.html", {"page_obj": page_obj})
+    return render(request, "category_list.html", {"page_obj": page_obj, "category": "General"})
 
 
 def manga_items(request):

@@ -12,29 +12,23 @@ if ! command -v python3 &>/dev/null; then
 fi
 
 # 2. Check if pip is installed
-if ! command -v pip3 &>/dev/null; then
-    echo "pip3 is not installed. Please install it and try again."
+if ! command -v poetry &>/dev/null; then
+    echo "poetry is not installed. Please install it and try again."
     exit 1
 fi
-
 # 3. Create a virtual environment
 echo "Creating virtual environment..."
-python3 -m venv venv
-source venv/bin/activate
+eval $(poetry env activate)
 
-# 4. Upgrade pip
-echo "Upgrading pip..."
-pip install --upgrade pip
-
-# 5. Install Django
+# 4. Install dependencies
 echo "Installing dependencies..."
-pip install -r requirements.txt
+poetry install
 
-# 6. Run initial migrations
+# 5. Run initial migrations
 echo "Running initial migrations..."
 python manage.py migrate
 
-# 7. Start the Django development server
+# 6. Start the Django development server
 echo "Starting the Django development server..."
 python manage.py runserver
 

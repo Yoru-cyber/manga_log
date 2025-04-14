@@ -1,3 +1,35 @@
-.caps{
-    text-transform: capitalize;
+body {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  background-color: black;
+  color: white;
+}
+.navbar-custom {
+  display: flex;
+  width: 100vw;
+  background-color: rgb(31, 30, 30);
+  color: white;
+  h1{
+    font-weight: 500;
+  }
+  ul{
+    display: inline-flex;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+    li{
+        margin-left: 5px;
+    }
+    list-style: none;
+  }
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
+.caps {
+  text-transform: capitalize;
 }
