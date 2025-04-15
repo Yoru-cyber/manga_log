@@ -1,11 +1,7 @@
-{%extends 'base.html'%}
-{% block content %}
-    <h1>Actualizar Entrada</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-
-        {% bootstrap_button button_type="submit" content="OK" %}
-        {% bootstrap_button button_type="reset" content="Cancel" %}
-    </form>
+{%extends 'base.html'%} {% block content %}
+<h1>Actualizar Entrada</h1>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %} {{form}}
+  <button type="submit">Ok</button>
+</form>
 {% endblock %}

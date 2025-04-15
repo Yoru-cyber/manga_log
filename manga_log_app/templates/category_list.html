@@ -1,14 +1,14 @@
 {% extends 'base.html' %} {% block content %} {%load static%}     {% load bootstrap_icons %}
     <h1 class="text-center">{{ category }}</h1>
-    <a class="btn btn-primary ms-2" href="{% url 'add_item' %}">Nueva Entrada  {% bs_icon "plus"%}</a>
+    <a class="btn-primary" href="{% url 'add_item' %}" style="text-decoration: none;">Nueva Entrada  {% bs_icon "plus"%}</a>
     {% if page_obj|length == 0 %}
         <h2>No hay entradas</h2>
     {%else%}
-        <div class="container-fluid mt-4">
-            <div class="table-responsive rounded">
-                <table class="table table-bordered table-hover">
-                    <thead class="table-dark">
-                        <tr class="text-center">
+        <div id="content" style="margin: 10px;">
+            <div class="datatable-container">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr class="table-title-row">
                             <th>#</th>
                             <th>Título</th>
                             <th>Categoría</th>
