@@ -1,99 +1,116 @@
-{% extends 'base.html' %} {% block content %} {%load static%}     {% load bootstrap_icons %}
-    <h1 class="text-center">{{ category }}</h1>
-    <a class="btn-primary" href="{% url 'add_item' %}" style="text-decoration: none;">Nueva Entrada  {% bs_icon "plus"%}</a>
-    {% if page_obj|length == 0 %}
-        <h2>No hay entradas</h2>
-    {%else%}
-        <div id="content" style="margin: 10px;">
-            <div class="datatable-container">
-                <table class="table table-responsive">
-                    <thead>
-                        <tr class="table-title-row">
-                            <th>#</th>
-                            <th>Título</th>
-                            <th>Categoría</th>
-                            <th>Calificación</th>
-                            <th>Review</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in page_obj %}
-                            <tr>
-                                <td class="text-center align-middle">{{item.id}}</td>
-                                <td class="text-capitalize text-left" style="width: 20%;">
-                                    {% if item.image %}
-                                        <img src="{{ item.image.url }}" alt="{{ item.name }}" style="width: 100px; height: 150px;border-radius: 10px;">
-                                    {% else %}
-                                        <img src="{% static 'images/schnoz.webp' %}" class="img-fluid rounded" alt="funny looking guy" style="max-width: 100px; height: auto;">
-                                    {% endif %}
-                                    <span>{{ item.name }}</span>
-
-                                </td>
-                                <td class="text-center align-middle">{{ item.category }}</td>
-                                <td class="text-center align-middle fs-5">
-                                    {% if item.rating >= 8 %}
-                                        <span class="badge bg-success">Calificación: {{ item.rating }}/10</span>
-                                    {% elif item.rating >= 5 %}
-                                        <span class="badge bg-warning">Calificación: {{ item.rating }}/10</span>
-                                    {% else %}
-                                        <span class="badge bg-danger">Calificación: {{ item.rating }}/10</span>
-                                    {% endif %}
-                                </td>
-                                <td class="text-center align-middle w-50">{{ item.review }}</td>
-                                <td class="text-center align-middle" style="width: 8%;">
-                                    <div class="d-inline-flex align-items-center gap-2">
-                                        <form action="{% url 'delete_item' item.id %}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este elemento?');">
-                                            {% csrf_token %}
-                                            <button class="btn btn-danger" type="submit">
-                                                {% bs_icon "trash"%}
-                                            </button>
-                                        </form>
-                                        <a href="{% url 'update_item' item.id %}" class="btn btn-warning">
-                                            {% bs_icon "pencil" %}
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+{% extends 'base.html' %} {% block content %} {%load static%}
+<h1 class="text-center">{{ category }}</h1>
+<a class="btn-primary" href="{% url 'add_item' %}" style="text-decoration: none"
+  >Nueva Entrada
+</a>
+{% if page_obj|length == 0 %}
+<h2>No hay entradas</h2>
+{%else%}
+<div id="content" style="margin: 10px">
+  <div class="datatable-container">
+    <table class="table table-responsive">
+      <thead>
+        <tr class="table-title-row">
+          <th>#</th>
+          <th>Título</th>
+          <th>Categoría</th>
+          <th>Calificación</th>
+          <th>Review</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in page_obj %}
+        <tr>
+          <td>{{item.id}}</td>
+          <td style="display: flex; align-items: center">
+            {% if item.image %}
+            <img
+              src="{{ item.image.url }}"
+              alt="{{ item.name }}"
+              style="width: 100px; height: 150px; border-radius: 10px"
+            />
+            {% else %}
+            <img
+              src="{% static 'images/schnoz.webp' %}"
+              class="img-fluid rounded"
+              alt="funny looking guy"
+              style="max-width: 100px; height: auto"
+            />
+            {% endif %}
+            <p style="text-transform: capitalize">{{ item.name }}</p>
+          </td>
+          <td>{{ item.category }}</td>
+          <td>
+            {% if item.rating >= 8 %}
+            <span>Calificación: {{ item.rating }}/10</span>
+            {% elif item.rating >= 5 %}
+            <span>Calificación: {{ item.rating }}/10</span>
+            {% else %}
+            <span>Calificación: {{ item.rating }}/10</span>
+            {% endif %}
+          </td>
+          <td style="width: 40%">{{ item.review }}</td>
+          <td style="width: 8%">
+            <div style="display: flex; align-items: center">
+              <form
+                action="{% url 'delete_item' item.id %}"
+                method="POST"
+                onsubmit="return confirm('¿Estás seguro de que deseas eliminar este elemento?');"
+              >
+                {% csrf_token %}
+                <button type="submit">Eliminar</button>
+              </form>
+              <a href="{% url 'update_item' item.id %}"> Editar </a>
             </div>
-        </div>
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page=1" aria-label="First">
-                            <span aria-hidden="true">&laquo;&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                {% endif %}
-
-                {% for num in page_obj.paginator.page_range %}
-                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                    </li>
-                {% endfor %}
-
-                {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-                            <span aria-hidden="true">&raquo;&raquo;</span>
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-    {%endif%}
-{% endblock %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page=1" aria-label="First">
+        <span aria-hidden="true">&laquo;&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="?page={{ page_obj.previous_page_number }}"
+        aria-label="Previous"
+      >
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% endif %} {% for num in page_obj.paginator.page_range %}
+    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+      <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+    </li>
+    {% endfor %} {% if page_obj.has_next %}
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="?page={{ page_obj.next_page_number }}"
+        aria-label="Next"
+      >
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="?page={{ page_obj.paginator.num_pages }}"
+        aria-label="Last"
+      >
+        <span aria-hidden="true">&raquo;&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+{%endif%} {% endblock %}
