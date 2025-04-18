@@ -34,7 +34,7 @@ if (-not (Test-Path "requirements.txt")) {
 }
 
 Write-Host "Installing dependencies from requirements.txt..."
-pip install -r requirements.txt
+pip install .
 
 # 6. Run initial migrations
 Write-Host "Running initial migrations..."
